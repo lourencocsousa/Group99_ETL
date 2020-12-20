@@ -11,8 +11,8 @@
   DTS:LocaleID="2057"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="1"
-  DTS:VersionGUID="{B40B9547-2A07-45DD-BB34-E1BCC341F864}">
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{E7BC3B1F-7933-42B5-9C6B-99DB5C5FC433}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -25,6 +25,21 @@
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
       DTS:ObjectName="Teste elaine"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\teste Lourenço"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{7E334007-E6ED-4785-B2E9-69E9A95AF15D}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="teste Lourenço"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -46,9 +61,13 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="135.2,41.6"
+          Size="135.333333333334,41.3333333333334"
           Id="Package\Teste elaine"
-          TopLeft="180.714288791832,123.117648785502" />
+          TopLeft="95.7142900584307,45.7676501686278" />
+        <NodeLayout
+          Size="149.333333333334,42.6666666666667"
+          Id="Package\teste Lourenço"
+          TopLeft="98.1249985378235,134.549997594059" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
