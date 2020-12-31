@@ -11,11 +11,21 @@
   DTS:LocaleID="2057"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="12"
-  DTS:VersionGUID="{3D1CC8DD-53D1-494F-92A6-EC66B4EED7F5}">
+  DTS:VersionBuild="60"
+  DTS:VersionGUID="{2A844300-903A-43B6-85C7-4BC4C62B3F48}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{137DE1EE-29CF-497F-BF79-4646A9FD5CCC}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\temp\Dim_Date.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[LocalHost.Group99_SA]"
       DTS:CreationName="OLEDB"
@@ -47,7 +57,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="ETL_ID">
       <DTS:VariableValue
-        DTS:DataType="3">20201230</DTS:VariableValue>
+        DTS:DataType="3">20201231</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:Executables>
@@ -70,7 +80,7 @@
           DTS:LocaleID="-1"
           DTS:ObjectName="DELETE Dim_Customer_SA"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -87,12 +97,12 @@
           DTS:LocaleID="-1"
           DTS:ObjectName="DELETE Dim_Date_SA"
           DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{94422781-E35D-4FFE-9A08-6EFA3AAA10FC}"
-              SQLTask:SqlStatementSource="DELETE FROM Dim_Offer_SA" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="DELETE FROM Dim_Date_SA" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -191,7 +201,1437 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="LOAD DATA TO DIMENSIONS">
       <DTS:Variables />
-      <DTS:Executables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{682414DB-5E76-45EB-88D4-3F97AD477B73}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Date Dim XLS"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="Convert Proper DB Date"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Inputs[Data Conversion Input].Columns[Proper_DB_Date]"
+                          cachedDataType="wstr"
+                          cachedLength="152"
+                          cachedName="Proper_DB_Date"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Outputs[Derived Column Output].Columns[Proper_DB_Date]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Outputs[Data Conversion Output].Columns[NEW Proper_DB_Date]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="152"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Outputs[Data Conversion Output].Columns[NEW Proper_DB_Date]"
+                          name="NEW Proper_DB_Date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Outputs[Derived Column Output].Columns[Proper_DB_Date]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="Convert to Unicode"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[BK_Date]"
+                          cachedDataType="r8"
+                          cachedName="BK_Date"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[BK_Date]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Full_Date]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Full_Date"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Full_Date]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Day_Name_Long]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Day_Name_Long"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_Name_Long]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Day_Name_Short]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Day_Name_Short"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_Name_Short]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Day_of_Week_Number]"
+                          cachedDataType="r8"
+                          cachedName="Day_of_Week_Number"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_of_Week_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Day_of_Month_Number]"
+                          cachedDataType="r8"
+                          cachedName="Day_of_Month_Number"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_of_Month_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Day_of_Year_Number]"
+                          cachedDataType="r8"
+                          cachedName="Day_of_Year_Number"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_of_Year_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Is_Week_Day]"
+                          cachedDataType="r8"
+                          cachedName="Is_Week_Day"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Is_Week_Day]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Month_Number]"
+                          cachedDataType="r8"
+                          cachedName="Month_Number"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Month_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Month_Name_Long]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Month_Name_Long"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Month_Name_Long]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Month_Name_Short]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Month_Name_Short"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Month_Name_Short]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Quarter_Number]"
+                          cachedDataType="r8"
+                          cachedName="Quarter_Number"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Quarter_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Quarter_Name]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Quarter_Name"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Quarter_Name]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Semester_Number]"
+                          cachedDataType="r8"
+                          cachedName="Semester_Number"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Semester_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Semester_Name]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Semester_Name"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Semester_Name]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Week_of_Year_Number]"
+                          cachedDataType="r8"
+                          cachedName="Week_of_Year_Number"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Week_of_Year_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input].Columns[Year]"
+                          cachedDataType="r8"
+                          cachedName="Year"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Year]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI BK_Date]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI BK_Date]"
+                          name="UNI BK_Date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[BK_Date]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Full_Date]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Full_Date]"
+                          name="UNI Full_Date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Full_Date]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_Name_Long]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_Name_Long]"
+                          name="UNI Day_Name_Long"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_Name_Long]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_Name_Short]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_Name_Short]"
+                          name="UNI Day_Name_Short"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_Name_Short]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_of_Week_Number]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_of_Week_Number]"
+                          name="UNI Day_of_Week_Number"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_of_Week_Number]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_of_Month_Number]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_of_Month_Number]"
+                          name="UNI Day_of_Month_Number"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_of_Month_Number]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_of_Year_Number]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_of_Year_Number]"
+                          name="UNI Day_of_Year_Number"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_of_Year_Number]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Is_Week_Day]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Is_Week_Day]"
+                          name="UNI Is_Week_Day"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Is_Week_Day]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Month_Number]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Month_Number]"
+                          name="UNI Month_Number"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Month_Number]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Month_Name_Long]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Month_Name_Long]"
+                          name="UNI Month_Name_Long"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Month_Name_Long]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Month_Name_Short]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Month_Name_Short]"
+                          name="UNI Month_Name_Short"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Month_Name_Short]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNIQuarter_Number]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNIQuarter_Number]"
+                          name="UNIQuarter_Number"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Quarter_Number]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Quarter_Name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Quarter_Name]"
+                          name="UNI Quarter_Name"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Quarter_Name]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Semester_Number]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Semester_Number]"
+                          name="UNI Semester_Number"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Semester_Number]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Semester_Name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Semester_Name]"
+                          name="UNI Semester_Name"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Semester_Name]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Week_of_Year_Number]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Week_of_Year_Number]"
+                          name="UNI Week_of_Year_Number"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Week_of_Year_Number]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Year]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Year]"
+                          name="UNI Year"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Year]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="Create Proper DB Date"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Inputs[Derived Column Input].Columns[UNI Day_of_Month_Number]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Day_of_Month_Number"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_of_Month_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Inputs[Derived Column Input].Columns[UNI Month_Number]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Month_Number"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Month_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Inputs[Derived Column Input].Columns[UNI Year]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Year"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Year]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Outputs[Derived Column Output].Columns[Proper_DB_Date]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="152"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Outputs[Derived Column Output].Columns[Proper_DB_Date]"
+                          name="Proper_DB_Date"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">#{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Year]} + "-" + #{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Month_Number]} + "-" + #{Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_of_Month_Number]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">[UNI Year] + "-" + [UNI Month_Number] + "-" + [UNI Day_of_Month_Number]</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Excel Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">Sheet1$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                      connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[BK_Date]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[BK_Date]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[BK_Date]"
+                          name="BK_Date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Full_Date]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Full_Date]"
+                          length="255"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Full_Date]"
+                          name="Full_Date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_Name_Long]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Day_Name_Long]"
+                          length="255"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_Name_Long]"
+                          name="Day_Name_Long"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_Name_Short]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Day_Name_Short]"
+                          length="255"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_Name_Short]"
+                          name="Day_Name_Short"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_of_Week_Number]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Day_of_Week_Number]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_of_Week_Number]"
+                          name="Day_of_Week_Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_of_Month_Number]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Day_of_Month_Number]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_of_Month_Number]"
+                          name="Day_of_Month_Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_of_Year_Number]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Day_of_Year_Number]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Day_of_Year_Number]"
+                          name="Day_of_Year_Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Is_Week_Day]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Is_Week_Day]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Is_Week_Day]"
+                          name="Is_Week_Day"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Month_Number]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Month_Number]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Month_Number]"
+                          name="Month_Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Month_Name_Long]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Month_Name_Long]"
+                          length="255"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Month_Name_Long]"
+                          name="Month_Name_Long"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Month_Name_Short]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Month_Name_Short]"
+                          length="255"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Month_Name_Short]"
+                          name="Month_Name_Short"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Quarter_Number]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Quarter_Number]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Quarter_Number]"
+                          name="Quarter_Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Quarter_Name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Quarter_Name]"
+                          length="255"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Quarter_Name]"
+                          name="Quarter_Name"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Semester_Number]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Semester_Number]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Semester_Number]"
+                          name="Semester_Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Semester_Name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Semester_Name]"
+                          length="255"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Semester_Name]"
+                          name="Semester_Name"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Week_of_Year_Number]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Week_of_Year_Number]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Week_of_Year_Number]"
+                          name="Week_of_Year_Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Year]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Year]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].Columns[Year]"
+                          name="Year"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[BK_Date]"
+                          dataType="r8"
+                          name="BK_Date" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date]"
+                          dataType="date"
+                          name="Date" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Full_Date]"
+                          dataType="wstr"
+                          length="255"
+                          name="Full_Date" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Day_Name_Long]"
+                          dataType="wstr"
+                          length="255"
+                          name="Day_Name_Long" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Day_Name_Short]"
+                          dataType="wstr"
+                          length="255"
+                          name="Day_Name_Short" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Day_of_Week_Number]"
+                          dataType="r8"
+                          name="Day_of_Week_Number" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Day_of_Month_Number]"
+                          dataType="r8"
+                          name="Day_of_Month_Number" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Day_of_Year_Number]"
+                          dataType="r8"
+                          name="Day_of_Year_Number" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Is_Week_Day]"
+                          dataType="r8"
+                          name="Is_Week_Day" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Month_Number]"
+                          dataType="r8"
+                          name="Month_Number" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Month_Name_Long]"
+                          dataType="wstr"
+                          length="255"
+                          name="Month_Name_Long" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Month_Name_Short]"
+                          dataType="wstr"
+                          length="255"
+                          name="Month_Name_Short" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Quarter_Number]"
+                          dataType="r8"
+                          name="Quarter_Number" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Quarter_Name]"
+                          dataType="wstr"
+                          length="255"
+                          name="Quarter_Name" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Semester_Number]"
+                          dataType="r8"
+                          name="Semester_Number" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Semester_Name]"
+                          dataType="wstr"
+                          length="255"
+                          name="Semester_Name" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Week_of_Year_Number]"
+                          dataType="r8"
+                          name="Week_of_Year_Number" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output].ExternalColumns[Year]"
+                          dataType="r8"
+                          name="Year" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[BK_Date]"
+                          dataType="r8"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[BK_Date]"
+                          name="BK_Date" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Full_Date]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Full_Date]"
+                          name="Full_Date" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Day_Name_Long]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Day_Name_Long]"
+                          name="Day_Name_Long" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Day_Name_Short]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Day_Name_Short]"
+                          name="Day_Name_Short" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Day_of_Week_Number]"
+                          dataType="r8"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Day_of_Week_Number]"
+                          name="Day_of_Week_Number" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Day_of_Month_Number]"
+                          dataType="r8"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Day_of_Month_Number]"
+                          name="Day_of_Month_Number" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Day_of_Year_Number]"
+                          dataType="r8"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Day_of_Year_Number]"
+                          name="Day_of_Year_Number" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Is_Week_Day]"
+                          dataType="r8"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Is_Week_Day]"
+                          name="Is_Week_Day" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Month_Number]"
+                          dataType="r8"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Month_Number]"
+                          name="Month_Number" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Month_Name_Long]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Month_Name_Long]"
+                          name="Month_Name_Long" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Month_Name_Short]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Month_Name_Short]"
+                          name="Month_Name_Short" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Quarter_Number]"
+                          dataType="r8"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Quarter_Number]"
+                          name="Quarter_Number" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Quarter_Name]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Quarter_Name]"
+                          name="Quarter_Name" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Semester_Number]"
+                          dataType="r8"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Semester_Number]"
+                          name="Semester_Number" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Semester_Name]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Semester_Name]"
+                          name="Semester_Name" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Week_of_Year_Number]"
+                          dataType="r8"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Week_of_Year_Number]"
+                          name="Week_of_Year_Number" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Year]"
+                          dataType="r8"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[Year]"
+                          name="Year" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[Dim_Date_SA]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[LocalHost.Group99_SA]"
+                      connectionManagerRefId="Package.ConnectionManagers[LocalHost.Group99_SA]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI BK_Date]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI BK_Date"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BK_Date]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI BK_Date]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[NEW Proper_DB_Date]"
+                          cachedDataType="wstr"
+                          cachedLength="152"
+                          cachedName="NEW Proper_DB_Date"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Date]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Outputs[Data Conversion Output].Columns[NEW Proper_DB_Date]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Day_Name_Long]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Day_Name_Long"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Day_Name_Long]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_Name_Long]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Full_Date]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Full_Date"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Full_Date]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Full_Date]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Day_Name_Short]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Day_Name_Short"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Day_Name_Short]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_Name_Short]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Day_of_Month_Number]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Day_of_Month_Number"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Day_of_Month_Number]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_of_Month_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Day_of_Week_Number]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Day_of_Week_Number"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Day_of_Week_Number]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_of_Week_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Day_of_Year_Number]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Day_of_Year_Number"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Day_of_Year_Number]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Day_of_Year_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Is_Week_Day]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Is_Week_Day"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Is_Week_Day]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Is_Week_Day]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Month_Name_Long]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Month_Name_Long"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Month_Name_Long]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Month_Name_Long]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Month_Name_Short]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Month_Name_Short"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Month_Name_Short]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Month_Name_Short]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Month_Number]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Month_Number"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Month_Number]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Month_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNIQuarter_Number]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNIQuarter_Number"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Quarter_Number]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNIQuarter_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Quarter_Name]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Quarter_Name"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Quarter_Name]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Quarter_Name]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Semester_Name]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Semester_Name"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Semester_Name]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Semester_Name]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Semester_Number]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Semester_Number"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Semester_Number]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Semester_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Week_of_Year_Number]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Week_of_Year_Number"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Week_of_Year_Number]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Week_of_Year_Number]" />
+                        <inputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UNI Year]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="UNI Year"
+                          externalMetadataColumnId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Year]"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output].Columns[UNI Year]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Date]"
+                          dataType="dbDate"
+                          name="Date" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Full_Date]"
+                          dataType="wstr"
+                          length="50"
+                          name="Full_Date" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Day_Name_Long]"
+                          dataType="wstr"
+                          length="50"
+                          name="Day_Name_Long" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Day_Name_Short]"
+                          dataType="wstr"
+                          length="50"
+                          name="Day_Name_Short" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Day_of_Week_Number]"
+                          dataType="i4"
+                          name="Day_of_Week_Number" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Day_of_Month_Number]"
+                          dataType="i4"
+                          name="Day_of_Month_Number" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Day_of_Year_Number]"
+                          dataType="i4"
+                          name="Day_of_Year_Number" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Is_Week_Day]"
+                          dataType="i4"
+                          name="Is_Week_Day" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Month_Number]"
+                          dataType="i4"
+                          name="Month_Number" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Month_Name_Long]"
+                          dataType="wstr"
+                          length="50"
+                          name="Month_Name_Long" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Month_Name_Short]"
+                          dataType="wstr"
+                          length="50"
+                          name="Month_Name_Short" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Quarter_Number]"
+                          dataType="i4"
+                          name="Quarter_Number" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Quarter_Name]"
+                          dataType="wstr"
+                          length="50"
+                          name="Quarter_Name" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Semester_Number]"
+                          dataType="i4"
+                          name="Semester_Number" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Semester_Name]"
+                          dataType="wstr"
+                          length="50"
+                          name="Semester_Name" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Week_of_Year_Number]"
+                          dataType="i4"
+                          name="Week_of_Year_Number" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Year]"
+                          dataType="i4"
+                          name="Year" />
+                        <externalMetadataColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BK_Date]"
+                          dataType="i4"
+                          name="BK_Date" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS.Paths[Data Conversion Output]"
+                  endId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Inputs[Derived Column Input]"
+                  name="Data Conversion Output"
+                  startId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS.Paths[Data Conversion Output1]"
+                  endId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Data Conversion Output"
+                  startId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS.Paths[Derived Column Output]"
+                  endId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date.Inputs[Data Conversion Input]"
+                  name="Derived Column Output"
+                  startId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS.Paths[Excel Source Output]"
+                  endId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode.Inputs[Data Conversion Input]"
+                  name="Excel Source Output"
+                  startId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Log Delete SA Data"
@@ -279,13 +1719,13 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="205.6,41.6"
           Id="Package\DELETE DATA FROM SA TABLES\DELETE Dim_Customer_SA"
           TopLeft="68.4047564024833,22.5784316120677" />
         <NodeLayout
-          Size="205.6,41.6"
+          Size="183.2,41.6"
           Id="Package\DELETE DATA FROM SA TABLES\DELETE Dim_Date_SA"
           TopLeft="579.704756402485,82.267974932851" />
         <NodeLayout
@@ -315,13 +1755,17 @@
           Size="857.6,280"
           Id="Package\DELETE DATA FROM SA TABLES"
           TopLeft="310.761872613914,281.962747550423" />
+        <NodeLayout
+          Size="168.8,41.6"
+          Id="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS"
+          TopLeft="57.8857187864732,17.1882373639869" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="512,108"
-          Size="512,151.2"
+          PanelSize="848.8,149.6"
+          Size="848.8,192.8"
           Id="Package\LOAD DATA TO DIMENSIONS"
-          TopLeft="529.697955222484,595.820172553986" />
+          TopLeft="313.269380108156,646.243702201694" />
         <NodeLayout
           Size="169.6,41.6"
           Id="Package\Log Delete SA Data"
@@ -335,7 +1779,7 @@
           TopLeft="743.440459116988,94.0019614420959">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,187.960786108327"
               Start="0,0"
               End="0,180.460786108327">
@@ -354,18 +1798,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="1168.36187261391,421.675493277645">
+          TopLeft="1168.36187261391,421.675493277646">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="70.2095770502613,0"
+              StartConnector="{x:Null}"
+              EndConnector="70.2095770502658,0"
               Start="0,0"
-              End="62.7095770502613,0">
+              End="62.7095770502658,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="62.7095770502613,0" />
+                    End="62.7095770502658,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -376,30 +1820,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="739.561872613914,561.962747550423">
+          TopLeft="738.615626361035,561.962747550423">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="46.1360826085697,33.857425003563"
+              StartConnector="{x:Null}"
+              EndConnector="0,84.2809546512714"
               Start="0,0"
-              End="46.1360826085697,26.357425003563">
+              End="0,76.7809546512714">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,12.9287125017815" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,12.9287125017815"
-                    Point2="0,16.9287125017815"
-                    Point3="4,16.9287125017815" />
-                  <mssgle:LineSegment
-                    End="42.1360826085697,16.9287125017815" />
-                  <mssgle:CubicBezierSegment
-                    Point1="42.1360826085697,16.9287125017815"
-                    Point2="46.1360826085697,16.9287125017815"
-                    Point3="46.1360826085697,20.9287125017815" />
-                  <mssgle:LineSegment
-                    End="46.1360826085697,26.357425003563" />
+                    End="0,76.7809546512714" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -411,5 +1843,237 @@
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <TaskHost
+    design-time-name="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        <NodeLayout
+          Size="191.2,41.6"
+          Id="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert to Unicode"
+          TopLeft="5.50000000000003,111.679412515436" />
+        <NodeLayout
+          Size="191.2,41.6"
+          Id="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source"
+          TopLeft="5.50000000000003,5.49999999999995" />
+        <NodeLayout
+          Size="191.2,41.6"
+          Id="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Convert Proper DB Date"
+          TopLeft="5.50000000000009,310.3" />
+        <NodeLayout
+          Size="191.2,41.6"
+          Id="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Create Proper DB Date"
+          TopLeft="5.50000000000003,208.773530376989" />
+        <EdgeLayout
+          Id="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS.Paths[Excel Source Output]"
+          TopLeft="101.1,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,64.5794125154357"
+              Start="0,0"
+              End="0,57.0794125154357">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,57.0794125154357" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS.Paths[Derived Column Output]"
+          TopLeft="101.1,250.373530376989">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,59.9264696230111"
+              Start="0,0"
+              End="0,52.4264696230111">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4264696230111" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS.Paths[Data Conversion Output]"
+          TopLeft="101.1,153.279412515436">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,55.494117861553"
+              Start="0,0"
+              End="0,47.994117861553">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.994117861553" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="191.2,41.6"
+          Id="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination"
+          TopLeft="5.50000000000009,427.1" />
+        <EdgeLayout
+          Id="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS.Paths[Data Conversion Output1]"
+          TopLeft="101.1,351.9">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,75.1999999999999"
+              Start="0,0"
+              End="0,67.6999999999999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,67.6999999999999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text=" - Load do ficheiro XLS com os dados da Dim_Date&#xD;&#xA;Este ficheiro tem de estar na Path C:\temp e no formato excel 97-03"
+          ParentId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS"
+          Size="412.8,60"
+          Id="6f23aad0-086b-4169-a1b5-cabb141296b4"
+          TopLeft="214.242856413004,5.64999430249688">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Helvetica"
+              Size="12"
+              Color="#FFFFFFFF"
+              Weight="Bold">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+        <AnnotationLayout
+          Text="- Converter as colunas do ficheiro excel em UNICODE String"
+          ParentId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS"
+          Size="373.6,60"
+          Id="2d3a891d-7c31-4350-b8eb-bf46946aec28"
+          TopLeft="214.242856413004,102.479412515436">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Helvetica"
+              Size="12"
+              Color="#FFFFFFFF"
+              Weight="Bold">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+        <AnnotationLayout
+          Text="- Criar a Coluna Proper_DB_Date através da concatenação das colunas Year, MonthNumber e Day_of_Month_Number&#xD;&#xA;Isto permite a criação de um valor mais facilmente para o tipo date na SA"
+          ParentId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS"
+          Size="728.8,60"
+          Id="226f9d85-5665-4b2b-9151-09e5f2ff9336"
+          TopLeft="214.242856413004,199.573530376989">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Helvetica"
+              Size="12"
+              Color="#FFFFFFFF"
+              Weight="Bold">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+        <AnnotationLayout
+          Text="- Converter Proper_DB_Date para o formato date da SA"
+          ParentId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS"
+          Size="344,60"
+          Id="1614f27f-322b-4184-acdc-0f3477aa008e"
+          TopLeft="214.242856413004,311.462188857414">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Helvetica"
+              Size="12"
+              Color="#FFFFFFFF"
+              Weight="Bold">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+        <AnnotationLayout
+          Text="- Ligação à SA para carregar os dados da Dim_Date"
+          ParentId="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS"
+          Size="323.2,60"
+          Id="5389dd98-1e78-40f5-8a78-6a2322eaf60f"
+          TopLeft="214.242856413004,424.453786323404">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Helvetica"
+              Size="12"
+              Color="#FFFFFFFF"
+              Weight="Bold">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\LOAD DATA TO DIMENSIONS\Load Date Dim XLS\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
